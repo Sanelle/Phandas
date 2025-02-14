@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>On-Demand Services Platform</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/flatpickr/4.6.13/flatpickr.min.css">
+</head>
+<body>
+    <!-- Header with Responsive Menu -->
+    <header>
+        <div class="container">
+            <h1>On-Demand Services</h1>
+            <div class="search-bar">
+                <input type="text" id="search-input" placeholder="Search for services...">
+                <button id="search-button" class="btn-primary"><i class="fas fa-search"></i></button>
+            </div>
+            <nav>
+                <button id="menu-toggle" class="menu-toggle" aria-label="Toggle Menu">
+                    <i class="fas fa-bars"></i>
+                </button>
+                <ul id="nav-menu" class="nav-menu">
+                    <li><button id="open-request-modal" class="btn-primary">Request Service</button></li>
+                    <li><button id="open-profile-modal" class="btn-secondary">Profile</button></li>
+                    <li><button id="login-button" class="btn-primary">Login</button></li>
+                    <li><button id="logout-button" class="btn-secondary hidden">Logout</button></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main>
+        <section id="how-it-works">
+            <div class="container">
+                <h2>How It Works</h2>
+                <div class="steps">
+                    <div class="step">
+                        <i class="fas fa-search"></i>
+                        <h3>Search</h3>
+                        <p>Find the service you need by entering your location and selecting the type of service.</p>
+                    </div>
+                    <div class="step">
+                        <i class="fas fa-calendar-check"></i>
+                        <h3>Schedule</h3>
+                        <p>Choose to book the service immediately or schedule it for a later time.</p>
+                    </div>
+                    <div class="step">
+                        <i class="fas fa-handshake"></i>
+                        <h3>Connect</h3>
+                        <p>Get connected with a verified service provider and enjoy your service.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="find-provider">
+            <div class="container">
+                <h2>Find Service Providers</h2>
+                <form id="filter-form" class="filter-form">
+                    <div class="form-group">
+                        <label for="location">Location:</label>
+                        <input type="text" id="location" name="location" placeholder="Enter your location">
+                    </div>
+                    <div class="form-group">
+                        <label for="distance">Distance (km):</label>
+                        <input type="number" id="distance" name="distance" placeholder="Max distance">
+                    </div>
+                    <div class="form-group">
+                        <label for="service-type-filter">Service Type:</label>
+                        <select id="service-type-filter" name="service-type-filter">
+                            <option value="all">All</option>
+                            <option value="plumbing">Plumbing</option>
+                            <option value="electrical">Electrical</option>
+                            <option value="cleaning">Cleaning</option>
+                            <option value="carpentry">Carpentry</option>
+                            <option value="landscaping">Landscaping</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="price-min">Price Min:</label>
+                        <input type="number" id="price-min" name="price-min" placeholder="0">
+                    </div>
+                    <div class="form-group">
+                        <label for="price-max">Price Max:</label>
+                        <input type="number" id="price-max" name="price-max" placeholder="1000">
+                    </div>
+                    <button type="submit" class="btn-primary">Search</button>
+                </form>
+                <div id="providers-list" class="providers-grid">
+                    <!-- Providers will be dynamically listed here -->
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Modals -->
+    <div id="request-modal" class="modal">
+        <div class="modal-content">
+            <span class="close-button">&times;</span>
+            <h2>Request a Service</h2>
+            <form id="service-form" class="service-form">
+                <div class="form-group">
+                    <label for="service-type">Service Type:</label>
+                    <select id="service-type" name="service-type">
+                        <option value="plumbing">Plumbing</option>
+                        <option value="electrical">Electrical</option>
+                        <option value="cleaning">Cleaning</option>
+                        <option value="carpentry">Carpentry</option>
+                        <option value="landscaping">Landscaping</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="service-time">Service Time:</label>
+                    <select id="service-time" name="service-time">
+                        <option value="immediately">Immediately</option>
+                        <option value="scheduled">Scheduled</option>
+                    </select>
+                </div>
+                <div class="form-group" id="date-time-picker" style="display: none;">
+                    <label for="service-date-time">Select Date and Time:</label>
+                    <input type="text" id="service-date-time" name="service-date-time" placeholder="Select date and time">
+                </div>
+                <div class="form-group">
+                    <label for="price-range">Price Range:</label>
+                    <input type="text" id="price-range" name="price-range" placeholder="Enter price range">
+                </div>
+                <div class="form-group">
+                    <label for="details">Details:</label>
+                    <textarea id="details" name="details" placeholder="Enter any additional details or notes"></textarea>
+                </div>
+                <button type="submit" class="btn-primary">Submit Request</button>
+            </form>
+        </div>
+    </div>
+
+    <div id="profile-modal" class="modal">
+        <div class="modal-content">
+            <span class="close-button">&times;</span>
+            <h2>User Profile</h2>
+            <form id="profile-form" class="profile-form">
+                <div class="profile-pic">
+                    <img id="profile-pic-img" src="default-profile.png" alt="Profile Picture">
+                    <input type="file" id="profile-pic-upload" name="profile-pic" accept="image/*">
+                </div>
+                <div class="form-group">
+                    <label for="profile-name">Name:</label>
+                    <input type="text" id="profile-name" name="profile-name" value="John Doe">
+                </div>
+                <div class="form-group">
+                    <label for="profile-address">Address:</label>
+                    <input type="text" id="profile-address" name="profile-address" value="123 Main St">
+                </div>
+                <div class="form-group">
+                    <label for="profile-phone">Phone:</label>
+                    <input type="text" id="profile-phone" name="profile-phone" value="555-0100">
+                </div>
+                <div class="form-group">
+                    <label for="profile-bio">Bio:</label>
+                    <textarea id="profile-bio" name="profile-bio">This is a sample bio.</textarea>
+                </div>
+                <button type="submit" class="btn-primary">Save Changes</button>
+            </form>
+        </div>
+    </div>
+
+    <div id="login-modal" class="modal">
+        <div class="modal-content">
+            <span class="close-button">&times;</span>
+            <h2>Login / Register</h2>
+            <form id="login-form" class="login-form">
+                <div class="form-group">
+                    <label for="login-email">Email:</label>
+                    <input type="email" id="login-email" name="login-email" placeholder="Enter your email">
+                </div>
+                <div class="form-group">
+                    <label for="login-password">Password:</label>
+                    <input type="password" id="login-password" name="login-password" placeholder="Enter your password">
+                </div>
+                <button type="submit" class="btn-primary">Login</button>
+                <button type="button" id="register-user" class="btn-secondary">Register as User</button>
+                <button type="button" id="register-business" class="btn-secondary">Register as Business</button>
+            </form>
+        </div>
+    </div>
+
+    <div id="more-info-modal" class="modal">
+        <div class="modal-content">
+            <span class="close-button">&times;</span>
+            <h2>Service Details</h2>
+            <div id="more-info-content">
+                <!-- More info content will be dynamically inserted here -->
+            </div>
+            <div class="form-group">
+                <label for="immediate-service">
+                    <input type="checkbox" id="immediate-service" name="immediate-service">
+                    Immediate Service
+                </label>
+            </div>
+            <div class="form-group">
+                <label for="bookable-service">
+                    <input type="checkbox" id="bookable-service" name="bookable-service">
+                    Bookable Service
+                </label>
+            </div>
+            <button id="submit-request" class="btn-primary">Request Service</button>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <p>&copy; 2024 On-Demand Services Platform | South Africa</p>
+        </div>
+    </footer>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/flatpickr/4.6.13/flatpickr.min.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>
